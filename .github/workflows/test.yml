@@ -10,11 +10,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {dummy: none}
+          - {dummy: dummy}
+          - {if-empty-packages: none}
           - {if-empty-packages: error}
           - {if-empty-packages: warn}
           - {if-empty-packages: ignore}
           - {packages: hello}
+          - {if-empty-packages: none, packages: hello}
           - {if-empty-packages: error, packages: hello}
           - {if-empty-packages: warn, packages: hello}
           - {if-empty-packages: ignore, packages: hello}
