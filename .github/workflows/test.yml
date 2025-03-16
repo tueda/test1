@@ -32,3 +32,23 @@ jobs:
           echo ${{ steps.apt-cache.outputs.package-version-list }}
           echo ${{ steps.apt-cache.outputs.all-package-version-list }}
       - run: hello
+
+  test2:
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {dummy: dummy}
+          - {packages: hello}
+    steps:
+      - uses: actions/checkout@v4
+      - id: apt-cache
+        uses: tueda/cache-apt-pkgs-action@feat-allow-empty-packages
+        with:
+          packages: ${{ matrix.packages }}
+      - run: |
+          echo ${{ steps.apt-cache.outputs.cache-hit }}
+          echo ${{ steps.apt-cache.outputs.package-version-list }}
+          echo ${{ steps.apt-cache.outputs.all-package-version-list }}
+      - run: hello
