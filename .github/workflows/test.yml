@@ -1,0 +1,26 @@
+name: Test
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {}
+          - {if-packages-empty: error}
+          - {if-packages-empty: warn}
+          - {if-packages-empty: ignore}
+          - {packages: hello}
+          - {if-packages-empty: error, packages: hello}
+          - {if-packages-empty: warn, packages: hello}
+          - {if-packages-empty: ignore, packages: hello}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: ${{ matrix.packages }}
+      - run: hello
