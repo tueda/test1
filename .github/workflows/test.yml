@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {}
+          - {dummy: none}
           - {if-packages-empty: error}
           - {if-packages-empty: warn}
           - {if-packages-empty: ignore}
