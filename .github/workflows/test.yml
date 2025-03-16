@@ -20,7 +20,7 @@ jobs:
           - {if-empty-packages: ignore, packages: hello}
     steps:
       - uses: actions/checkout@v4
-      - uses: awalsh128/cache-apt-pkgs-action@latest
+      - uses: tueda/cache-apt-pkgs-action@feat-allow-empty-packages
         with:
           packages: ${{ matrix.packages }}
           if-empty-packages: ${{ matrix.if-empty-packages }}
