@@ -11,16 +11,17 @@ jobs:
       matrix:
         include:
           - {dummy: none}
-          - {if-packages-empty: error}
-          - {if-packages-empty: warn}
-          - {if-packages-empty: ignore}
+          - {if-empty-packages: error}
+          - {if-empty-packages: warn}
+          - {if-empty-packages: ignore}
           - {packages: hello}
-          - {if-packages-empty: error, packages: hello}
-          - {if-packages-empty: warn, packages: hello}
-          - {if-packages-empty: ignore, packages: hello}
+          - {if-empty-packages: error, packages: hello}
+          - {if-empty-packages: warn, packages: hello}
+          - {if-empty-packages: ignore, packages: hello}
     steps:
       - uses: actions/checkout@v4
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           packages: ${{ matrix.packages }}
+          if-empty-packages: ${{ matrix.if-empty-packages }}
       - run: hello
