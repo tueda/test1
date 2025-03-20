@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: apt-cache
-        uses: tueda/cache-apt-pkgs-action@feat-allow-empty-packages
+        uses: tueda/cache-apt-pkgs-action@feat-allow-empty-packages-wip1
         with:
           packages: ${{ matrix.packages }}
           if-empty-packages: ${{ matrix.if-empty-packages }}
@@ -44,7 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: apt-cache
-        uses: tueda/cache-apt-pkgs-action@feat-allow-empty-packages
+        uses: tueda/cache-apt-pkgs-action@feat-allow-empty-packages-wip1
         with:
           packages: ${{ matrix.packages }}
       - run: |
