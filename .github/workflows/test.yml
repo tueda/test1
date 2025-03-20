@@ -9,17 +9,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - {dummy: dummy}
-          - {empty_packages_behavior: none}
-          - {empty_packages_behavior: error}
-          - {empty_packages_behavior: warn}
-          - {empty_packages_behavior: ignore}
-          - {packages: hello}
-          - {empty_packages_behavior: none, packages: hello}
-          - {empty_packages_behavior: error, packages: hello}
-          - {empty_packages_behavior: warn, packages: hello}
-          - {empty_packages_behavior: ignore, packages: hello}
+        packages: ['', hello]
+        empty_packages_behavior: [error, warn, ignore, '', typo]
+        debug: [false, true]
     steps:
       - uses: actions/checkout@v4
       - id: apt-cache
@@ -27,26 +19,7 @@ jobs:
         with:
           packages: ${{ matrix.packages }}
           empty_packages_behavior: ${{ matrix.empty_packages_behavior }}
-      - run: |
-          echo ${{ steps.apt-cache.outputs.cache-hit }}
-          echo ${{ steps.apt-cache.outputs.package-version-list }}
-          echo ${{ steps.apt-cache.outputs.all-package-version-list }}
-      - run: hello
-
-  test2:
-    runs-on: ubuntu-22.04
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - {dummy: dummy}
-          - {packages: hello}
-    steps:
-      - uses: actions/checkout@v4
-      - id: apt-cache
-        uses: tueda/cache-apt-pkgs-action@feat-allow-empty-packages-wip1
-        with:
-          packages: ${{ matrix.packages }}
+          debug: ${{ matrix.debug }}
       - run: |
           echo ${{ steps.apt-cache.outputs.cache-hit }}
           echo ${{ steps.apt-cache.outputs.package-version-list }}
