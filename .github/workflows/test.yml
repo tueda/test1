@@ -15,13 +15,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: apt-cache
+        continue-on-error: true
         uses: tueda/cache-apt-pkgs-action@feat-allow-empty-packages-wip1
         with:
           packages: ${{ matrix.packages }}
           empty_packages_behavior: ${{ matrix.empty_packages_behavior }}
           debug: ${{ matrix.debug }}
       - run: |
-          echo ${{ steps.apt-cache.outputs.cache-hit }}
-          echo ${{ steps.apt-cache.outputs.package-version-list }}
-          echo ${{ steps.apt-cache.outputs.all-package-version-list }}
-      - run: hello
+          echo "cache-hit: ${{ steps.apt-cache.outputs.cache-hit }}"
+          echo "package-version-list: ${{ steps.apt-cache.outputs.package-version-list }}"
+          echo "all-package-version-list: ${{ steps.apt-cache.outputs.all-package-version-list }}"
+      - id: run-hello
+        continue-on-error: true
+        run: hello
+      - if: >-
+          ((matrix.empty_packages_behavior == 'warn' || matrix.empty_packages_behavior == 'ignore') && steps.apt-cache.outcome != 'success') ||
+          ((matrix.empty_packages_behavior != 'warn' && matrix.empty_packages_behavior != 'ignore' && matrix.packages == '') && steps.apt-cache.outcome == 'success') ||
+          (matrix.packages == 'hello' && steps.run-hello.outcome != 'success') ||
+          (matrix.packages != 'hello' && steps.run-hello.outcome == 'success')
+        run: false
