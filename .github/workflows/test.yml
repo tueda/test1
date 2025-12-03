@@ -19,5 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
+          pwd
+          mktemp a.XXXXXXXXXX
+          ls
           mkdir build
-          mktemp build/file.XXXXXXXXXX
+          mktemp build/b.XXXXXXXXXX
+          ls build
