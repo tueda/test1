@@ -17,6 +17,11 @@ jobs:
         include:
           - {bin: form}
     steps:
+      - run: |
+          dpkg --add-architecture amd64
+          apt-get update
+          apt-get install --no-install-recommends -y libstdc++6:amd64
+
       # See https://github.com/actions/checkout/issues/334
       - name: Checkout repository
         uses: actions/checkout@v6
