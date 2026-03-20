@@ -1,0 +1,27 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+          - macos-26-intel
+          - macos-26
+    steps:
+      - run: |
+          wget http://madgraph.phys.ucl.ac.be/Downloads/hepmc2.06.09.tgz
+          tar -xzf hepmc2.06.09.tgz
+          cd hepmc2.06.09
+          ./configure --with-momentum=GEV --with-length=MM
+          make -j 4
+          sudo make install
