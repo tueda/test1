@@ -1,0 +1,34 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash {0}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-22.04
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+          - ubuntu-slim
+          - macos-14
+          - macos-15-intel
+          - macos-15
+          - macos-26-intel
+          - macos-26
+          - windows-2022
+          - windows-2025
+          - windows-2025-vs2026
+          - windows-11-arm
+    steps:
+      - run: curl -fsSL -O https://gist.githubusercontent.com/tueda/28951755d390afd707abe1dc36aee56c/raw/print-env-versions.sh
+      - run: bash print-env-versions.sh
