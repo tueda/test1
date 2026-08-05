@@ -1,0 +1,16 @@
+name: Test
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: valgrind
+          version: 1.0
+
+      - run: valgrind --help
